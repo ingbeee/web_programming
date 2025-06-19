@@ -9,13 +9,17 @@
       <div class="col">
         <div class="card shadow-sm">
           <div class="card-body">
-            <h5 class="card-title">{{ post.title }}</h5>
+            <h5><a href="{{ url_for('board.read_post', idx=post.idx) }}" class="card-title">{{ post.title }}</a></h5>
             <p class="card-text">{{ post.content[:100] }}...</p>
-            <a href="#" class="btn btn-sm btn-outline-primary">Read more</a>
           </div>
         </div>
       </div>
       {% endfor %}
+    </div>
+     <div class="d-flex justify-content-end mt-4">
+      <a href="{{ url_for('board.write') }}" class="btn btn-info text-white">
+        + Write Post
+      </a>
     </div>
   </div>
 {% endblock %}

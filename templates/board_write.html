@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .write-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  .write-container h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .write-container input,
+  .write-container textarea {
+    width: 100%;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+
+  .write-container button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .write-container button:hover {
+    background-color: #bee2ea;
+  }
+</style>
+
+<div class="write-container">
+  <h2>Write a New Post</h2>
+  <form method="POST" action="{{ url_for('board.write') }}">
+    <input type="text" name="title" placeholder="Title" required>
+    <textarea name="content" placeholder="Content" rows="10" required></textarea>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+{% endblock %}
