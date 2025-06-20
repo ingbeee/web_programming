@@ -22,8 +22,15 @@
                 <path d="M21 21l-5.2-5.2"></path>
               </svg>
             </a>
-            <a class="btn btn-sm btn-outline-secondary"  href="{{ url_for('auth.login') }}">Sign up</a>
-          </div>
+            <div class="d-flex align-items-center">
+          {% if session.get('username') %}
+            <span class="me-3"><strong>{{ session['username'] }}</strong></span>
+            <a class="btn btn-sm btn-outline-danger" href="{{ url_for('auth.logout') }}">Logout</a>
+          {% else %}
+            <a class="btn btn-sm btn-outline-primary me-2" href="{{ url_for('auth.login') }}">Login</a>
+          {% endif %}
+        </div>
+
         </div>
       </header>
 

@@ -63,3 +63,9 @@ def login():
         return redirect(url_for('auth.login'))
 
     return render_template('login.html')
+
+@auth_bp.route('/logout')
+def logout():
+    session.clear()
+    flash("You have been logged out.", "success")
+    return redirect(url_for('main.home'))  # 홈으로 리디렉션

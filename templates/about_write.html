@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  .category-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .category-item {
+    padding: 0.5rem 1.2rem;
+    border: 2px solid #0c5460;
+    background-color: #ffffff;
+    color: #0c5460;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.3s;
+  }
+
+  .category-item.selected {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    font-weight: bold;
+    border-color: #0c5460;
+  }
+</style>
+
+<div class="container my-5">
+  <h2>Write About</h2>
+  <form method="POST" action="{{ url_for('about.write') }}">
+    <input type="text" name="title" class="form-control my-2" placeholder="Title" required>
+
+    <label class="form-label">카테고리 선택 (1개)</label>
+    <div class="category-container">
+      <div class="category-item" data-value="대회">대회</div>
+      <div class="category-item" data-value="프로젝트">프로젝트</div>
+      <div class="category-item" data-value="관련 활동">관련 활동</div>
+      <div class="category-item" data-value="기타">기타</div>
+    </div>
+
+    <input type="hidden" name="category" id="selectedCategory" required>
+
+    <textarea name="content" class="form-control my-2" placeholder="Content" rows="8" required></textarea>
+    <button type="submit" class="btn btn-info text-white mt-2">Submit</button>
+  </form>
+</div>
+
+<script>
+  const items = document.querySelectorAll('.category-item');
+  const hiddenInput = document.getElementById('selectedCategory');
+
+  items.forEach(item => {
+    item.addEventListener('click', () => {
+      items.forEach(el => el.classList.remove('selected'));
+      item.classList.add('selected');
+      hiddenInput.value = item.dataset.value;
+    });
+  });
+</script>
+{% endblock %}

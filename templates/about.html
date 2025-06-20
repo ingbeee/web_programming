@@ -1,21 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="container my-5">
-    <h2 class="pb-2 border-bottom">About</h2>
+<div class="container my-5">
+  <h2 class="pb-2 border-bottom">About</h2>
 
-    <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
+  {% for category, posts in categories.items() %}
+    <h4 class="mt-4">{{ category }}</h4>
+    <div class="row row-cols-1 row-cols-md-2 g-4 mt-1">
       {% for post in posts %}
       <div class="col">
         <div class="card shadow-sm">
           <div class="card-body">
             <h5 class="card-title">{{ post.title }}</h5>
             <p class="card-text">{{ post.content[:100] }}...</p>
-            <a href="#" class="btn btn-sm btn-outline-primary">Read more</a>
+            <a href="{{ url_for('about.read', idx=post.idx) }}" class="btn btn-sm btn-outline-primary">Read more</a>
           </div>
         </div>
       </div>
       {% endfor %}
     </div>
+  {% endfor %}
+
+  <div class="d-flex justify-content-end mt-5">
+    <a href="{{ url_for('about.write') }}" class="btn btn-info text-white">
+      + Write Post
+    </a>
   </div>
+</div>
 {% endblock %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container my-5">
+  <h2>{{ post.title }}</h2>
+  <p class="text-muted">By {{ post.username }} | Category: {{ post.category }} | Views: {{ post.views }} | {{ post.created_at }}</p>
+  <hr>
+  <div>{{ post.content | safe }}</div>
+  <a href="{{ url_for('about.about_page') }}" class="btn btn-secondary mt-3">Back to list</a>
+</div>
+{% endblock %}
