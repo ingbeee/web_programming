@@ -1,21 +1,26 @@
 {% extends "base.html" %}
-
 {% block content %}
-  <div class="container my-5">
-    <h2 class="pb-2 border-bottom">Food</h2>
+<div class="container my-5">
+  <h2 class="pb-2 border-bottom">맛집 게시판</h2>
 
-    <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
-      {% for post in posts %}
-      <div class="col">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h5 class="card-title">{{ post.title }}</h5>
-            <p class="card-text">{{ post.content[:100] }}...</p>
-            <a href="#" class="btn btn-sm btn-outline-primary">Read more</a>
-          </div>
+  <div class="row row-cols-1 row-cols-md-2 g-4 mt-3">
+    {% for post in posts %}
+    <div class="col">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="card-title">{{ post.title }}</h5>
+          <p class="card-text">{{ post.content[:100] }}...</p>
+
+          <p class="mb-1">⭐️ 별점: {{ post.rating }}/5</p>
+          <a href="{{ url_for('food.read', idx=post.idx) }}" class="btn btn-sm btn-outline-primary">Read more</a>
         </div>
       </div>
-      {% endfor %}
     </div>
+    {% endfor %}
   </div>
+
+  <div class="d-flex justify-content-end mt-4">
+    <a href="{{ url_for('food.write') }}" class="btn btn-success text-white">+ 맛집 등록</a>
+  </div>
+</div>
 {% endblock %}
