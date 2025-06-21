@@ -3,9 +3,9 @@ version: '3.8'
 services:
   db:
     image: mysql:8
-    container_name: mysql-container
+    container_name: mysql-dev-db
     environment:
-      MYSQL_ROOT_PASSWORD: yourpassword
+      MYSQL_ROOT_PASSWORD: 8963
       MYSQL_DATABASE: pyweb
     ports:
       - "3306:3306"
@@ -15,7 +15,7 @@ services:
 
   web:
     build: .
-    container_name: pyweb
+    container_name: docker-web
     ports:
       - "4000-4050:4000-4050"
     volumes:

@@ -11,20 +11,27 @@
       <div class="col">
         <div class="card shadow-sm">
           <div class="card-body">
-            <h5 class="card-title">{{ post.title }}</h5>
-            <p class="card-text">{{ post.content[:100] }}...</p>
-            <a href="{{ url_for('about.read', idx=post.idx) }}" class="btn btn-sm btn-outline-primary">Read more</a>
+            <h5 class="card-title">
+              <a href="{{ url_for('about.read', idx=post.idx) }}" class="text-decoration-none" style="color: #007bff; font-size: 1.3rem;">
+                {{ post.title }}
+              </a>
+            </h5>
+            <p class="card-text" style="font-size: 0.95rem;">
+              {{ post.content[:50] }}...
+            </p>
           </div>
         </div>
       </div>
       {% endfor %}
     </div>
   {% endfor %}
-
+  
+  {% if session.get('role') == 'admin' %}
   <div class="d-flex justify-content-end mt-5">
     <a href="{{ url_for('about.write') }}" class="btn btn-info text-white">
       + Write Post
     </a>
   </div>
+  {% endif %}
 </div>
 {% endblock %}

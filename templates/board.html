@@ -1,25 +1,51 @@
 {% extends "base.html" %}
 
 {% block content %}
+<style>
+  table.board-table td,
+  table.board-table th {
+    padding: 1rem 0.75rem;
+    font-size: 1.05rem;
+    vertical-align: middle;
+  }
+</style>
+
   <div class="container my-5">
     <h2 class="pb-2 border-bottom">Community Board</h2>
 
-    <div class="row row-cols-1 g-4 mt-3">
-      {% for post in posts %}
-      <div class="col">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <h5><a href="{{ url_for('board.read_post', idx=post.idx) }}" class="card-title">{{ post.title }}</a></h5>
-            <p class="card-text">{{ post.content[:100] }}...</p>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-     <div class="d-flex justify-content-end mt-4">
+<table class="table table-hover table-striped board-table align-middle mt-4">
+      <thead class="table-light">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">제목</th>
+          <th scope="col">작성자</th>
+          <th scope="col">작성일</th>
+          <th scope="col">조회수</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in posts %}
+        <tr>
+          <th scope="row">{{ post.idx }}</th>
+          <td>
+            <a href="{{ url_for('board.read_post', idx=post.idx) }}">
+              {{ post.title }}
+            </a>
+          </td>
+          <td>{{ post.author }}</td>
+          <td>{{ post.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>{{ post.views }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {% if session.get('role') == 'admin' %}
+    <div class="d-flex justify-content-end mt-4">
       <a href="{{ url_for('board.write') }}" class="btn btn-info text-white">
         + Write Post
       </a>
     </div>
+    {% endif %}
   </div>
 {% endblock %}

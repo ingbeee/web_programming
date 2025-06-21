@@ -1,28 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <title>{% block title %}My Blog{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  </head>
-  <body>
-    <div class="container">
-      <header class="border-bottom lh-1 py-3">
-        <div class="row flex-nowrap justify-content-between align-items-center">
-          <div class="col-4 pt-1"></div>
-          <div class="col-4 text-center">
-            <a class="blog-header-logo text-body-emphasis text-decoration-none" href="#">Eunji</a>
-          </div>
-          <div class="col-4 d-flex justify-content-end align-items-center">
-            <a class="link-secondary" href="#" aria-label="Search">
-              <svg class="mx-3" width="20" height="20" fill="none" stroke="currentColor"
-                   stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                   viewBox="0 0 24 24">
-                <circle cx="10.5" cy="10.5" r="7.5"></circle>
-                <path d="M21 21l-5.2-5.2"></path>
-              </svg>
-            </a>
-            <div class="d-flex align-items-center">
+<head>
+  <meta charset="UTF-8" />
+  <title>{% block title %}My Blog{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    #flash-message-container {
+      position: fixed;
+      top: 70px; /* Logout 아래쪽 여백 */
+      right: 30px;
+      z-index: 9999;
+    }
+
+    .flash-message {
+      background-color: #333;
+      color: white;
+      padding: 12px 36px 12px 20px;
+      margin-top: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      animation: fadein 0.3s ease;
+      position: relative;
+      max-width: 300px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+    }
+
+    .flash-message.success { background-color: #28a745; }
+    .flash-message.error   { background-color: #dc3545; }
+    .flash-message.info    { background-color: #17a2b8; }
+
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="border-bottom lh-1 py-3">
+      <div class="row flex-nowrap justify-content-between align-items-center">
+        <div class="col-4 pt-1"></div>
+        <div class="col-4 text-center">
+          <a class="blog-header-logo text-body-emphasis text-decoration-none" href="#">Eunji</a>
+        </div>
+        <div class="col-4 d-flex justify-content-end align-items-center">
           {% if session.get('username') %}
             <span class="me-3"><strong>{{ session['username'] }}</strong></span>
             <a class="btn btn-sm btn-outline-danger" href="{{ url_for('auth.logout') }}">Logout</a>
@@ -30,22 +61,48 @@
             <a class="btn btn-sm btn-outline-primary me-2" href="{{ url_for('auth.login') }}">Login</a>
           {% endif %}
         </div>
-
-        </div>
-      </header>
-
-      <div class="nav-scroller py-1 mb-3 border-bottom">
-        <nav class="nav nav-underline justify-content-between">
-          <a class="nav-item nav-link link-body-emphasis active" href="/">home</a>
-          <a class="nav-item nav-link link-body-emphasis" href="{{ url_for('board.board_page') }}">Board</a>
-          <a class="nav-item nav-link link-body-emphasis" href="{{ url_for('about.about_page') }}">About</a>
-          <a class="nav-item nav-link link-body-emphasis" href="{{ url_for('food.food_page') }}">Food</a>
-        </nav>
       </div>
-    </div>
+    </header>
 
-    <main class="container">
-      {% block content %}{% endblock %}
-    </main>
-  </body>
+    <div class="nav-scroller py-1 mb-3 border-bottom">
+      <nav class="nav nav-underline justify-content-between">
+        <a class="nav-item nav-link link-body-emphasis {% if request.path == '/' %}active{% endif %}" href="/">Home</a>
+        <a class="nav-item nav-link link-body-emphasis" href="{{ url_for('board.board_page') }}">Board</a>
+        <a class="nav-item nav-link link-body-emphasis" href="{{ url_for('about.about_page') }}">About</a>
+        <a class="nav-item nav-link link-body-emphasis" href="{{ url_for('food.food_page') }}">Food</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Flash 메시지 컨테이너 (로그아웃 바로 아래에 뜨게 고정) -->
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div id="flash-message-container">
+        {% for category, message in messages %}
+          <div class="flash-message {{ category }}">
+            {{ message }}
+            <span class="close-btn" onclick="this.parentElement.style.display='none';">&times;</span>
+          </div>
+        {% endfor %}
+      </div>
+      <script>
+        // 3초 후 부드럽게 사라짐
+        setTimeout(() => {
+          const container = document.getElementById('flash-message-container');
+          if (container) {
+            container.style.transition = 'opacity 0.5s ease-out';
+            container.style.opacity = '0';
+            setTimeout(() => container.remove(), 500);
+          }
+        }, 3000);
+      </script>
+    {% endif %}
+  {% endwith %}
+
+  <main class="container">
+    {% block content %}{% endblock %}
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

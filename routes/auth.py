@@ -68,4 +68,4 @@ def login():
 def logout():
     session.clear()
     flash("You have been logged out.", "success")
-    return redirect(url_for('main.home'))  # 홈으로 리디렉션
+    return redirect(url_for('home'))  # 홈으로 리디렉션

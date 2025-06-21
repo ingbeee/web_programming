@@ -38,10 +38,6 @@ def write():
         content = request.form['content']
         username = session['username']
 
-        print("🟡 title:", title)
-        print("🟢 category:", category)
-        print("🔵 content:", content)
-
 
         try:
             cur = mysql.connection.cursor()

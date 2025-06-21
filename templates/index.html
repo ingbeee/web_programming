@@ -1,9 +1,32 @@
 {% extends "base.html" %}
-
-{% block title %}홈{% endblock %}
-
 {% block content %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/blog.css') }}">
+<div class="container my-5">
+  <h1 class="mb-4">웹 프로그래밍 프로젝트</h1>
 
-  <p>This is the homepage.</p>
+  <p>
+    안녕하세요! <strong>웹 프로그래밍</strong> 과목의 프로젝트로 자기소개 페이지를 제작했습니다.   
+    백엔드는 <strong>Flask</strong>, 데이터베이스는 <strong>MySQL</strong>을 활용하여 구현하였고, <strong>Docker</strong> 환경에서 동작하도록 구성하였습니다@
+  </p>
+
+  <p>
+    <strong>Board</strong> 페이지는 자유롭게 글을 작성하고 볼 수 있는 게시판입니다.
+  </p>
+
+  <p>
+    <strong>About</strong> 페이지에는 지금까지 보안 관련해서 참여한 대회나 프로젝트, 활동 등을 정리해두었습니다. 
+  </p>
+
+  <p>
+    <strong>Food</strong> 페이지는 학교를 다니면서 간 맛집들을 간단한 리뷰를 남겼습니다.
+  </p>
+
+  <hr>
+  <p>
+    아래 계정으로 로그인해서 각각의 기능들을 체험할 수 있습니다.
+  </p>
+  <ul>
+    <li><strong>일반 사용자</strong>: <code>user / user</code></li>
+    <li><strong>관리자</strong>: <code>adminadmin / adminadmin</code></li>
+  </ul>
+</div>
 {% endblock %}

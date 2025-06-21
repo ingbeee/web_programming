@@ -9,7 +9,7 @@ board_bp = Blueprint('board', __name__, url_prefix='/board')
 def board_page():
     try:
         cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cur.execute("SELECT idx, title, content FROM Board ORDER BY created_at DESC")
+        cur.execute("SELECT idx, title, author, views, created_at FROM Board ORDER BY created_at DESC")
         posts = cur.fetchall()
         cur.close()
     except Exception as e:
